@@ -1,0 +1,87 @@
+databases:
+  - name: ai-marketing-db
+    plan: free
+    databaseName: ai_marketing_manager
+    user: aimm
+
+services:
+  - type: redis
+    name: ai-marketing-redis
+    plan: free
+    ipAllowList: []
+
+  - type: web
+    name: ai-marketing-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-marketing-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: ai-marketing-redis
+          property: connectionString
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: TOKEN_ENCRYPTION_KEY
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: META_APP_ID
+        sync: false
+      - key: META_APP_SECRET
+        sync: false
+      - key: META_WEBHOOK_VERIFY_TOKEN
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://ai-marketing-frontend.onrender.com
+
+  - type: worker
+    name: ai-marketing-worker
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm run worker
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-marketing-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: ai-marketing-redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: TOKEN_ENCRYPTION_KEY
+        fromService:
+          type: web
+          name: ai-marketing-backend
+          envVarKey: TOKEN_ENCRYPTION_KEY
+
+  - type: web
+    name: ai-marketing-frontend
+    runtime: node
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://ai-marketing-backend.onrender.com/api/v1
