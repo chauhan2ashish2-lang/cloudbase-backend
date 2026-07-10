@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { pool } from './db.js';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Runs database/schema.sql automatically on boot if the `agencies` table
  * doesn't exist yet. This removes the need to manually run the schema via
  * a SQL console when deploying for the first time.
+ *
+ * Tries multiple candidate paths since deploy folder structure can vary
+ * (root directory settings, nested vs flattened repo layout, etc).
  */
 export async function autoMigrate() {
   const check = await pool.query(
@@ -19,8 +19,23 @@ export async function autoMigrate() {
     return;
   }
 
-  console.log('[migrate] No schema found — running database/schema.sql...');
-  const schemaPath = path.join(__dirname, '../../../database/schema.sql');
+  console.log('[migrate] No schema found — looking for database/schema.sql...');
+
+  const candidates = [
+    path.join(process.cwd(), 'database', 'schema.sql'),
+    path.join(process.cwd(), '..', 'database', 'schema.sql'),
+    path.join(process.cwd(), 'src', '..', 'database', 'schema.sql'),
+  ];
+
+  let schemaPath = candidates.find((p) => fs.existsSync(p));
+
+  if (!schemaPath) {
+    console.error('[migrate] Could not find schema.sql in any expected location. Tried:', candidates);
+    console.error('[migrate] Current working directory:', process.cwd());
+    return;
+  }
+
+  console.log('[migrate] Found schema at:', schemaPath);
   const sql = fs.readFileSync(schemaPath, 'utf8');
   await pool.query(sql);
   console.log('[migrate] Schema applied successfully.');
