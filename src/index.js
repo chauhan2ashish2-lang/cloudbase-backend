@@ -16,6 +16,11 @@ import businessesRoutes from './routes/businesses.routes.js';
 
 const app = express();
 
+// Render (and most PaaS platforms) sit behind a reverse proxy that sets
+// X-Forwarded-For. Without this, express-rate-limit throws a validation
+// error on every request since it can't safely trust the client IP.
+app.set('trust proxy', 1);
+
 app.use(helmet());
 app.use(cors({ origin: env.frontendUrl, credentials: true }));
 
