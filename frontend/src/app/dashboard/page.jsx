@@ -72,7 +72,7 @@ export default function DashboardPage() {
           {businesses.length > 0 && (
             <div className="grid gap-4 mb-6">
               {businesses.map((b) => (
-                <div key={b.id} className="border border-neutral-800 rounded-xl p-5 flex items-center justify-between">
+                <div key={b.id} onClick={() => router.push(`/dashboard/business/${b.id}`)} className="border border-neutral-800 rounded-xl p-5 flex items-center justify-between cursor-pointer hover:border-neutral-700 transition-colors">
                   <div>
                     <div className="font-medium">{b.name}</div>
                     <div className="text-sm text-neutral-500">{b.industry || 'No industry set'} · {b.onboarding_status}</div>
