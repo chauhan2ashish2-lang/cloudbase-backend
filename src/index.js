@@ -50,7 +50,7 @@ v1.use('/', contentRoutes); // content.routes.js defines full paths incl. /busin
 v1.use('/', businessesRoutes);
 // v1.use('/', adsRoutes);
 // v1.use('/', analyticsRoutes);
-// v1.use('/', agentsRoutes);
+v1.use('/', agentsRoutes);
 // v1.use('/billing', billingRoutes);
 
 app.use('/api/v1', v1);
