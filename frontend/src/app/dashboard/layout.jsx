@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Businesses', icon: '🏢', enabled: true },
   { href: '/dashboard/calendar', label: 'Content Calendar', icon: '🗓️', enabled: true },
-  { href: '/dashboard/analytics', label: 'Analytics', icon: '📊', enabled: false },
+  { href: '/dashboard/analytics', label: 'Analytics', icon: '📊', enabled: true },
   { href: '/dashboard/ads', label: 'Ads Manager', icon: '📣', enabled: false },
   { href: '/dashboard/settings', label: 'Settings', icon: '⚙️', enabled: false },
 ];
