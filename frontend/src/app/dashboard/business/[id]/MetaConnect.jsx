@@ -32,7 +32,7 @@ export default function MetaConnect({ businessId }) {
 
   async function loadStatus() {
     try {
-      const res = await apiRequest(`/businesses/${businessId}/meta/status`);
+      const res = await apiRequest(`/meta/businesses/${businessId}/status`);
       setStatus(res.data || false);
     } catch (err) {
       setStatus(false);
