@@ -72,6 +72,12 @@ export default function BusinessDetailPage() {
             {[business?.industry, business?.target_audience, business?.country].filter(Boolean).join(' · ') || 'No details set'}
           </p>
         </div>
+<Link
+          href={`/dashboard/business/${businessId}/chat`}
+          className="px-5 py-2.5 rounded-lg border border-neutral-800 hover:border-neutral-700 font-medium whitespace-nowrap mr-3"
+        >
+          💬 Chat with AI
+        </Link>
         <button
           onClick={handleGenerate}
           disabled={generating}
