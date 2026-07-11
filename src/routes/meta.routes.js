@@ -7,7 +7,7 @@ import { env } from '../config/env.js';
 import * as meta from '../services/metaGraphService.js';
 
 const router = Router();
-router.get('/businesses/:businessId/meta/status', requireAuth, requireBusinessAccess, async (req, res, next) => {
+router.get('/businesses/:businessId/status', requireAuth, requireBusinessAccess, async (req, res, next) => {
   try {
     const { rows } = await query(
       `SELECT id, fb_page_id, fb_page_name, ig_business_id, ig_username, status, connected_at
