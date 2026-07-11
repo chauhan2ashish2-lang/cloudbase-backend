@@ -7,6 +7,17 @@ import { env } from '../config/env.js';
 import * as meta from '../services/metaGraphService.js';
 
 const router = Router();
+router.get('/businesses/:businessId/meta/status', requireAuth, requireBusinessAccess, async (req, res, next) => {
+  try {
+    const { rows } = await query(
+      `SELECT id, fb_page_id, fb_page_name, ig_business_id, ig_username, status, connected_at
+       FROM meta_connections WHERE business_id = $1 AND status = 'connected'
+       ORDER BY connected_at DESC LIMIT 1`,
+      [req.business.id]
+    );
+    res.json({ data: rows[0] || null });
+  } catch (err) { next(err); }
+});
 
 /**
  * Frontend flow:
