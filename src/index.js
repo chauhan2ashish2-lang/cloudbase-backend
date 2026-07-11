@@ -12,6 +12,7 @@ import businessesRoutes from './routes/businesses.routes.js';
 // import adsRoutes from './routes/ads.routes.js';
 // import analyticsRoutes from './routes/analytics.routes.js';
 import agentsRoutes from './routes/agents.routes.js';
+import adsRoutes from './routes/ads.routes.js';
 // import billingRoutes from './routes/billing.routes.js';
 
 const app = express();
@@ -51,6 +52,7 @@ v1.use('/', businessesRoutes);
 // v1.use('/', adsRoutes);
 // v1.use('/', analyticsRoutes);
 v1.use('/', agentsRoutes);
+v1.use('/', adsRoutes);
 // v1.use('/billing', billingRoutes);
 
 app.use('/api/v1', v1);
