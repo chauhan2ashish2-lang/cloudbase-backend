@@ -11,7 +11,7 @@ import contentRoutes from './routes/content.routes.js';
 import businessesRoutes from './routes/businesses.routes.js';
 // import adsRoutes from './routes/ads.routes.js';
 // import analyticsRoutes from './routes/analytics.routes.js';
-// import agentsRoutes from './routes/agents.routes.js';
+import agentsRoutes from './routes/agents.routes.js';
 // import billingRoutes from './routes/billing.routes.js';
 
 const app = express();
