@@ -39,6 +39,10 @@ router.post('/businesses/:businessId/content/generate', requireAuth, requireBusi
       categories: req.body.categories,
     });
 
+    if (businessResult.rows[0].onboarding_status === 'pending') {
+      await query(`UPDATE businesses SET onboarding_status = 'active' WHERE id = $1`, [req.business.id]);
+    }
+
     res.status(201).json({ data: posts });
   } catch (err) { next(err); }
 });
