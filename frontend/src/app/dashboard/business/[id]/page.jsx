@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { apiRequest } from '@/lib/api';
+import MetaConnect from './MetaConnect';
 
 export default function BusinessDetailPage() {
   const router = useRouter();
@@ -64,7 +65,7 @@ export default function BusinessDetailPage() {
       <Link href="/dashboard" className="text-sm text-neutral-500 hover:text-neutral-300 mb-6 inline-block">
         ← All businesses
       </Link>
-
+<MetaConnect businessId={businessId} />
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold">{business?.name}</h1>
